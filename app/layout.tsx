@@ -32,6 +32,8 @@ export const metadata: Metadata = {
     description: site.description,
   },
   robots: { index: true, follow: true },
+  // Google Search Console ownership check. Keep it, or the site stops being verified.
+  verification: { google: "CjwjUubVOX7Ejz8ns7oIqT97GZ3bdfYcluhfiVha-So" },
   formatDetection: { telephone: false },
 };
 
