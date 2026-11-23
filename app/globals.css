@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+/* Dark is the default look; the header switch can opt into light. */
+:root {
+  --bg: #0b0d12;
+  --surface: #121620;
+  --surface-2: #171c28;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #e8eaf0;
+  --muted: #9aa3b4;
+  --accent: #5b5ceb; /* fills: buttons, focus */
+  --accent-ink: #8f91ff; /* accent used as text on the background */
+  --grid: rgba(255, 255, 255, 0.04);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f0f2f6;
+  --line: rgba(15, 23, 42, 0.1);
+  --line-strong: rgba(15, 23, 42, 0.2);
+  --text: #0f172a;
+  --muted: #525c6e;
+  --accent: #4f46e5;
+  --accent-ink: #4338ca;
+  --grid: rgba(15, 23, 42, 0.05);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--accent); color: #fff; }
+
+/* Display scale from the brief: large, tight, one clamp for every section headline. */
+.display {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* Engineering-paper grid behind project previews that have no screenshot yet. */
+.blueprint {
+  background-color: var(--surface-2);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* The hero is the only thing that animates on load. */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Project details dialog: a quick fade and settle when it opens, and the page behind stops scrolling. */
+@keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+dialog.details[open], dialog.lightbox[open] { animation: pop .2s cubic-bezier(.2,.7,.2,1); }
+dialog.details::backdrop { background: rgba(5, 7, 12, 0.7); }
+dialog.lightbox::backdrop { background: rgba(5, 7, 12, 0.92); }
+html:has(dialog[open]) { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog.details[open], dialog.lightbox[open] { animation: none; }}
