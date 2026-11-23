@@ -123,7 +123,7 @@ export default function Home() {
 
       <main id="top">
         {/* Hero */}
-        <section className={`${container} grid items-center gap-12 pt-16 pb-20 md:grid-cols-12 md:gap-10 md:pt-24 md:pb-28`}>
+        <section className={`${container} grid items-center gap-12 pt-12 pb-20 md:grid-cols-12 md:gap-10 md:pt-24 md:pb-28`}>
           <div className="md:col-span-7">
             <p className="rise font-mono text-sm text-muted">
               {profile.name} / {profile.title}
@@ -149,26 +149,36 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rise md:col-span-5" style={{ animationDelay: "240ms" }}>
-            <div className="mx-auto w-full max-w-[340px] overflow-hidden rounded-[18px] border border-line bg-surface md:ml-auto md:mr-0">
-              {profile.photoUrl ? (
-                <button
-                  type="button"
-                  onClick={() => setZoom({ src: profile.photoUrl, alt: `Portrait of ${profile.name}` })}
-                  aria-label="View photo full size"
-                  className="group relative block w-full cursor-zoom-in"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={profile.photoUrl} alt={`Portrait of ${profile.name}`} className="aspect-[4/5] w-full object-cover object-top" />
-                  <ZoomHint />
-                </button>
-              ) : (
-                <div className="blueprint grid aspect-[4/5] w-full place-items-center">
-                  <span className="font-display text-8xl font-bold tracking-tight">
-                    <Wordmark name={profile.name} />
-                  </span>
-                </div>
-              )}
+          {/* Phones: photo first, as a centred circle inside an accent ring with a small gap.
+              Desktop: the tall rounded portrait beside the text. */}
+          <div className="rise order-first md:order-none md:col-span-5" style={{ animationDelay: "240ms" }}>
+            <div className="mx-auto w-44 rounded-full border-2 border-accent-ink p-1.5 sm:w-52 md:mr-0 md:ml-auto md:w-full md:max-w-[340px] md:rounded-[18px] md:border md:border-line md:p-0">
+              <div className="overflow-hidden rounded-full bg-surface md:rounded-[17px]">
+                {profile.photoUrl ? (
+                  <button
+                    type="button"
+                    onClick={() => setZoom({ src: profile.photoUrl, alt: `Portrait of ${profile.name}` })}
+                    aria-label="View photo full size"
+                    className="group relative block w-full cursor-zoom-in"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={profile.photoUrl}
+                      alt={`Portrait of ${profile.name}`}
+                      className="aspect-square w-full object-cover object-[50%_20%] md:aspect-[4/5] md:object-top"
+                    />
+                    <span className="hidden md:block">
+                      <ZoomHint />
+                    </span>
+                  </button>
+                ) : (
+                  <div className="blueprint grid aspect-square w-full place-items-center md:aspect-[4/5]">
+                    <span className="font-display text-5xl font-bold tracking-tight md:text-8xl">
+                      <Wordmark name={profile.name} />
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </section>
