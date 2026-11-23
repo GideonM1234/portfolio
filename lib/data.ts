@@ -8,7 +8,7 @@ export const emptyProfile: Profile = {
   location: "Lagos, Nigeria",
   headline: "I build software that businesses run on.",
   intro:
-    "HR, payroll and e-commerce systems that teams rely on every day, built end to end with Django, React and PostgreSQL.",
+    "Custom web platforms and operational tools that turn complex workflows into smooth software, built end to end with Django, React and PostgreSQL.",
   about: "",
   photoUrl: "",
   skills: [

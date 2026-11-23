@@ -11,7 +11,7 @@ export const site = {
   country: "NG",
   title: "Gideon Michael, Software Engineer in Lagos, Nigeria",
   description:
-    "Gideon Michael is a software engineer in Lagos, Nigeria who builds HR, payroll and e-commerce systems with Django, React and PostgreSQL.",
+    "Gideon Michael is a software engineer in Lagos, Nigeria who builds custom web platforms and operational tools that turn complex workflows into smooth software.",
   email: "uduaghangideon@gmail.com",
   employer: "Gemz Software",
   sameAs: ["https://github.com/GideonM1234"],
