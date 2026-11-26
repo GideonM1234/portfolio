@@ -10,7 +10,8 @@ export const emptyProfile: Profile = {
   intro:
     "Custom web platforms and operational tools that turn complex workflows into smooth software, built end to end with Django, React and PostgreSQL.",
   about: "",
-  photoUrl: "",
+  // Until Firestore loads, show the build-time copy of the saved photo (also what crawlers see).
+  photoUrl: "/profile-photo.jpg",
   skills: [
     "Languages & Frameworks: Python, Django, Django REST Framework, JavaScript, TypeScript, React, Next.js, SQL, C",
     "Data Science & Machine Learning: Pandas, NumPy, Data preprocessing, Machine learning, Statistics",

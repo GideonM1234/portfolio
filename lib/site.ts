@@ -6,6 +6,8 @@ export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://gideon-port
 export const site = {
   name: "Gideon Michael",
   initials: "GM",
+  // Other names people may search for (the CV and the old portfolio use these).
+  alternateNames: ["GM", "Gideon B. Michael", "Uduaghan Gideon Michael", "Gideon Uduaghan"],
   jobTitle: "Software Engineer",
   city: "Lagos",
   country: "NG",

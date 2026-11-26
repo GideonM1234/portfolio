@@ -125,13 +125,14 @@ export default function Home() {
         {/* Hero */}
         <section className={`${container} grid items-center gap-12 pt-12 pb-20 md:grid-cols-12 md:gap-10 md:pt-24 md:pb-28`}>
           <div className="md:col-span-7">
-            <p className="rise font-mono text-sm text-muted">
+            {/* The name line is the page's h1 so searches for the name find it; the tagline keeps the big type. */}
+            <h1 className="rise font-mono text-sm font-normal text-muted">
               {profile.name} / {profile.title}
               {profile.location && ` / ${profile.location}`}
-            </p>
-            <h1 className="rise display mt-6 text-balance" style={{ animationDelay: "60ms" }}>
-              {profile.headline}
             </h1>
+            <p className="rise display mt-6 text-balance" style={{ animationDelay: "60ms" }}>
+              {profile.headline}
+            </p>
             {profile.intro && (
               <p className="rise mt-6 max-w-[52ch] text-lg text-muted" style={{ animationDelay: "120ms" }}>
                 {profile.intro}

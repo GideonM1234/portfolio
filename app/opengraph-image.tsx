@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { fetchProfilePhoto } from "@/lib/profile-photo";
 import { site, siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static"; // required for the static export
@@ -8,12 +9,17 @@ export const alt = `${site.name}, ${site.jobTitle} in Lagos, Nigeria`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// The card shown when the site is shared on LinkedIn, WhatsApp, X and so on.
-// Same look as the site: dark background, faint grid, one indigo accent.
+// The card shown when the site is shared (LinkedIn, WhatsApp, X) and offered to Google:
+// the hero photo in its accent ring beside the name, on the site's dark grid.
+// The photo is captured at build time, so redeploy after changing it in /admin.
 export default async function OpengraphImage() {
-  // The site's display font, so the mark and headline match the page.
-  const spaceGrotesk = await readFile(join(process.cwd(), "assets/space-grotesk-700.woff"));
+  const [spaceGrotesk, photo] = await Promise.all([
+    readFile(join(process.cwd(), "assets/space-grotesk-700.woff")),
+    fetchProfilePhoto(),
+  ]);
   const grid = "rgba(255,255,255,0.05)";
+  const display = { fontFamily: "Space Grotesk", fontWeight: 700 } as const;
+
   return new ImageResponse(
     (
       <div
@@ -21,30 +27,61 @@ export default async function OpengraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
+          alignItems: "center",
           justifyContent: "space-between",
-          padding: 72,
+          padding: "0 80px",
           background: "#0b0d12",
           backgroundImage: `linear-gradient(${grid} 1px, transparent 1px), linear-gradient(90deg, ${grid} 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
           color: "#e8eaf0",
         }}
       >
-        <div style={{ display: "flex", fontFamily: "Space Grotesk", fontSize: 48, fontWeight: 700, letterSpacing: -2 }}>
-          <span>G</span>
-          <span style={{ color: "#8f91ff" }}>M</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 30, color: "#9aa3b4" }}>{`${site.name} / ${site.jobTitle} / Lagos, Nigeria`}</div>
-          <div
-            style={{ marginTop: 20, fontFamily: "Space Grotesk", fontSize: 80, fontWeight: 700, lineHeight: 1.05, letterSpacing: -3, maxWidth: 900 }}
-          >
-            I build software that businesses run on.
+        <div style={{ display: "flex", flexDirection: "column", maxWidth: 620 }}>
+          <div style={{ display: "flex", ...display, fontSize: 40, letterSpacing: -2 }}>
+            <span>G</span>
+            <span style={{ color: "#8f91ff" }}>M</span>
+          </div>
+          <div style={{ display: "flex", marginTop: 56, ...display, fontSize: 84, lineHeight: 1, letterSpacing: -3 }}>
+            {site.name}
+          </div>
+          <div style={{ display: "flex", marginTop: 22, fontSize: 34, color: "#c7ccd8" }}>{`${site.jobTitle}, Lagos, Nigeria`}</div>
+          <div style={{ display: "flex", marginTop: 18, fontSize: 26, lineHeight: 1.35, color: "#9aa3b4" }}>
+            Custom web platforms and operational tools for real businesses.
+          </div>
+          <div style={{ display: "flex", alignItems: "center", marginTop: 56, fontSize: 24, color: "#9aa3b4" }}>
+            <div style={{ width: 44, height: 3, background: "#8f91ff", marginRight: 16 }} />
+            {siteUrl.replace(/^https?:\/\//, "")}
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", fontSize: 26, color: "#9aa3b4" }}>
-          <div style={{ width: 48, height: 3, background: "#8f91ff", marginRight: 18 }} />
-          {siteUrl.replace(/^https?:\/\//, "")}
+
+        <div style={{ display: "flex", padding: 10, borderRadius: 9999, border: "4px solid #8f91ff" }}>
+          {photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={photo.dataUrl}
+              alt=""
+              width={380}
+              height={380}
+              style={{ width: 380, height: 380, borderRadius: 9999, objectFit: "cover", objectPosition: "50% 20%" }}
+            />
+          ) : (
+            <div
+              style={{
+                width: 380,
+                height: 380,
+                borderRadius: 9999,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "#171c28",
+                ...display,
+                fontSize: 150,
+              }}
+            >
+              <span>G</span>
+              <span style={{ color: "#8f91ff" }}>M</span>
+            </div>
+          )}
         </div>
       </div>
     ),
