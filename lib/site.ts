@@ -16,6 +16,10 @@ export const site = {
     "Gideon Michael is a software engineer in Lagos, Nigeria who builds custom web platforms and operational tools that turn complex workflows into smooth software.",
   email: "uduaghangideon@gmail.com",
   employer: "Gemz Software",
-  sameAs: ["https://github.com/GideonM1234"],
+  sameAs: [
+    "https://github.com/GideonM1234",
+    "https://www.linkedin.com/in/gideon-michael-83379b289/",
+    "https://www.instagram.com/gideon_b_micheal/",
+  ],
   knowsAbout: ["Python", "Django", "Django REST Framework", "React", "Next.js", "TypeScript", "PostgreSQL", "Machine learning"],
 };
